@@ -16,7 +16,7 @@
     <?php if (isset($_SESSION['police'])): ?>
     <h3><span class="icon"><i class="fa-solid fa-chart-simple"></i></span> Police</h3>
     <a href="police_dashboard.php">Dashboard</a>
-    <a href="">Profile</a>
+    <a href="view_police_profile.php">Profile</a>
     <a href="">Search Vechile</a>
     <a href="police_logout.php">
         <h3><i class="fas fa-sign-out-alt"></i> LOGOUT</h3>

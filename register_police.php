@@ -25,6 +25,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $police_station = $_POST['police_station'];
     $username = $_POST['username'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    
+    // Handle file upload
+    $profile_picture = '';
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
+        $allowed_extensions = ['jpg', 'jpeg', 'png'];
+        $file_extension = pathinfo($_FILES['profile_picture']['name'], PATHINFO_EXTENSION);
+        if (in_array($file_extension, $allowed_extensions)) {
+            $file_name = 'profile_' . $badge_number . '.' . $file_extension;
+            $file_path = 'uploads/' . $file_name;
+            if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $file_path)) {
+                $profile_picture = $file_path;
+            } else {
+                $error_message = "Error uploading the profile picture.";
+            }
+        } else {
+            $error_message = "Invalid file type for profile picture. Only jpg, jpeg, and png are allowed.";
+        }
+    }
 
     // Check for duplicates
     $check_sql = "SELECT * FROM police WHERE username='$username' OR email='$email' OR badge_number='$badge_number'";
@@ -33,8 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $error_message = "Username, Email, or Badge Number already exists.";
     } else {
-        $sql = "INSERT INTO police (first_name, middle_name, last_name, dob, phone_number, email, house_address, badge_number, mttd_rank, police_station, username, password) 
-                VALUES ('$first_name', '$middle_name', '$last_name', '$dob', '$phone_number', '$email', '$house_address', '$badge_number', '$mttd_rank', '$police_station', '$username', '$password')";
+        $sql = "INSERT INTO police (first_name, middle_name, last_name, dob, phone_number, email, house_address, badge_number, mttd_rank, police_station, username, password, profile_picture) 
+                VALUES ('$first_name', '$middle_name', '$last_name', '$dob', '$phone_number', '$email', '$house_address', '$badge_number', '$mttd_rank', '$police_station', '$username', '$password', '$profile_picture')";
 
         if ($conn->query($sql) === TRUE) {
             $success_message = "Police personnel registered successfully.";
@@ -74,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <span class="close-btns" onclick="closeSuccess()">x</span>
             </div>
         <?php endif; ?>
-        <form method="post" action="">
+        <form method="post" action="" enctype="multipart/form-data">
             <div class="forms">
                 <label>First Name:</label>
                 <input type="text" name="first_name" required>
@@ -163,6 +181,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <option value="osu_police_station">Osu Police Station</option>
                     <option value="teshie_police_station">Teshie Police Station</option>
                 </select>
+            </div>
+
+            <div class="forms">
+                <label>Profile Picture:</label>
+                <input type="file" name="profile_picture" accept="image/*">
             </div>
 
             <div class="forms_grid">
