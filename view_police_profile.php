@@ -25,6 +25,7 @@ if ($result->num_rows > 0) {
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,13 +34,17 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/police_profile.css">
 </head>
+
 <body>
     <?php include 'header.php'; ?>
 
     <div class="profile_container">
         <h2>Police Profile</h2>
         <div class="profile_details">
-            <img src="<?php echo htmlspecialchars($police['profile_picture']); ?>" alt="Profile Picture" class="profile_picture">
+            <div class="profile_img">
+                <img src="<?php echo htmlspecialchars($police['profile_picture']); ?>" alt="Profile Picture" class="profile_picture">
+
+            </div>
             <p><strong>First Name:</strong> <?php echo htmlspecialchars($police['first_name']); ?></p>
             <p><strong>Middle Name:</strong> <?php echo htmlspecialchars($police['middle_name']); ?></p>
             <p><strong>Last Name:</strong> <?php echo htmlspecialchars($police['last_name']); ?></p>
@@ -59,4 +64,5 @@ if ($result->num_rows > 0) {
 
     <?php include 'footer.php'; ?>
 </body>
+
 </html>

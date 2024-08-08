@@ -5,32 +5,33 @@ session_start();
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
+    $username_or_email = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM police WHERE username='$username'";
-    $result = $conn->query($sql);
+    $sql = "SELECT * FROM police WHERE username = ? OR email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $username_or_email, $username_or_email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
-            $_SESSION['police'] = $username;
+            $_SESSION['police'] = $row['username'];
             header("Location: police_dashboard.php");
             exit();
         } else {
             $error_message = "Invalid password.";
         }
     } else {
-        $error_message = "No police found with that username.";
+        $error_message = "No police found with that username or email.";
     }
 }
 ?>
 
 <!DOCTYPE html>
 <html>
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Police Login</title>
@@ -53,23 +54,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     <div class="auth_forms">
-        <div class="logo">
-           
-        </div>
+        <div class="logo"></div>
         <div class="forms_title">
-            <h2>POLICE  - LOG IN</h2>
+            <h2>POLICE - LOG IN</h2>
             <p>GHANA VEHICLE CHECK - MOTOR TRAFFIC AND TRANSPORT DEPARTMENT (MTTD)</p>
         </div>
-    <?php if ($error_message != ""): ?>
-        <div class="error_message error" id="error-message">
-            <?php echo $error_message; ?>
-            <span class="close-btn" onclick="closeError()">x</span>
-        </div>
-    <?php endif; ?>
-    <form method="post" action="">
+        <?php if ($error_message != ""): ?>
+            <div class="error_message error" id="error-message">
+                <?php echo $error_message; ?>
+                <span class="close-btn" onclick="closeError()">x</span>
+            </div>
+        <?php endif; ?>
+        <form method="post" action="">
             <div class="forms">
-                <label>Username: </label>
-                <input type="text" placeholder="Enter your username" name="username" required>
+                <label>Username or Email: </label>
+                <input type="text" placeholder="Enter your username or email" name="username" required>
             </div>
             <div class="forms">
                 <label>Password: </label>
@@ -81,6 +80,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="forms">
                 <button type="submit">Login</button>
+            </div>
+            <div class="forms">
+                <p><a href="">Forget Password</a></p>
             </div>
         </form>
     </div>
@@ -150,4 +152,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </script>
 </body>
 </html>
-

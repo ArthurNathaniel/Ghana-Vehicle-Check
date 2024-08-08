@@ -21,14 +21,15 @@ $result = $conn->query($sql);
     <?php include 'cdn.php'; ?>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/view_registered_police.css">
+  
 </head>
 <body>
     <?php include 'header.php'; ?>
 
     <div class="view_all">
-       <div class="title">
-       <h2>Registered Police Personnel</h2>
-       </div>
+        <div class="title">
+            <h2>Registered Police Personnel</h2>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -44,13 +45,17 @@ $result = $conn->query($sql);
             <tbody>
                 <?php while ($row = $result->fetch_assoc()) : ?>
                     <tr>
-                        <td><img src="<?php echo htmlspecialchars($row['profile_picture']); ?>" alt="Profile Picture" class="profile-picture"></td>
+                        <td class="profile"><img src="<?php echo htmlspecialchars($row['profile_picture']); ?>" alt="Profile Picture" class="profile-picture"></td>
                         <td><?php echo htmlspecialchars($row['mttd_rank']); ?></td>
                         <td><?php echo htmlspecialchars($row['last_name']); ?></td>
                         <td><?php echo htmlspecialchars($row['middle_name']); ?></td>
                         <td><?php echo htmlspecialchars($row['first_name']); ?></td>
                         <td><?php echo htmlspecialchars($row['badge_number']); ?></td>
-                        <td><button class="view-details" data-id="<?php echo $row['id']; ?>">View Details</button></td>
+                        <td class="actions">
+                            <button class="view-details" data-id="<?php echo $row['id']; ?>"><i class="fas fa-eye"></i></button>
+                            <button class="edit-details" data-id="<?php echo $row['id']; ?>"><i class="fas fa-edit"></i></button>
+                            <button class="delete-details" data-id="<?php echo $row['id']; ?>"><i class="fas fa-trash-alt"></i></button>
+                        </td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
@@ -76,9 +81,9 @@ $result = $conn->query($sql);
         var span = document.getElementsByClassName("close-btn")[0];
 
         // Get all "View Details" buttons
-        var buttons = document.querySelectorAll(".view-details");
+        var viewButtons = document.querySelectorAll(".view-details");
 
-        buttons.forEach(function(button) {
+        viewButtons.forEach(function(button) {
             button.addEventListener("click", function() {
                 var id = this.getAttribute("data-id");
                 
@@ -103,6 +108,41 @@ $result = $conn->query($sql);
                         `;
                         modal.style.display = "block";
                     });
+            });
+        });
+
+        // Handle "Edit" button click
+        var editButtons = document.querySelectorAll(".edit-details");
+
+        editButtons.forEach(function(button) {
+            button.addEventListener("click", function() {
+                var id = this.getAttribute("data-id");
+                // Redirect to the edit profile page with the police id
+                window.location.href = 'edit_police_profile.php?id=' + id;
+            });
+        });
+
+        // Handle "Delete" button click
+        var deleteButtons = document.querySelectorAll(".delete-details");
+
+        deleteButtons.forEach(function(button) {
+            button.addEventListener("click", function() {
+                var id = this.getAttribute("data-id");
+                if (confirm("Are you sure you want to delete this police profile?")) {
+                    // Send delete request via AJAX
+                    fetch('delete_police_profile.php?id=' + id, {
+                        method: 'DELETE'
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data === 'success') {
+                            // Reload the page to reflect the deletion
+                            location.reload();
+                        } else {
+                            alert('Error deleting profile: ' + data);
+                        }
+                    });
+                }
             });
         });
 
