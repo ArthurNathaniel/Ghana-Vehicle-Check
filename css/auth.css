@@ -1,0 +1,123 @@
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+.close-btn {
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+}
+
+.auth_all{
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    height: 100vh;
+}
+
+.auth_swiper{
+    overflow: hidden;
+  
+}
+.auth_forms{
+    /* border: 2px dashed; */
+    padding: 0 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+  
+}
+.forms_title{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px; 
+    text-align: center;
+}
+.forms_title h2{
+    color: #002952;
+
+}
+.forms{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+}
+.forms input{
+    height: 44px;
+    width: 100%;
+    padding-left: 2%;
+    border-radius: 5px;
+    border: 1.5px solid #ddd;
+}
+
+.forms input:focus{
+    outline: none;
+}
+
+.forms button{
+    height: 44px;
+    width: 100%;
+    background-color: #002952;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+}
+.show_password{
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+form{
+    width: 100%;
+}
+.logo{
+    height: 150px;
+    width: 150px;
+    background-image: url(../images/logo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* margin: auto; */
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #555;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+}
+
+
+input[type="checkbox"]:checked::before {
+    content: "\2713"; /* Unicode character for a checkmark */
+    font-size: 16px;
+    color: white;
+    position: absolute;
+    top: -2px;
+    left: 2px;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #002952;
+    border-color: #002952;
+}
+
+.error{
+    margin-top: 20px;
+    background-color: rgba(250, 128, 114, 0.568);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    padding-block: 10px;
+    border-radius: 5px;
+}
