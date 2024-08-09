@@ -44,7 +44,7 @@
     <section>
         <div class="about_grid">
             <div class="about_img">
-                <img src="./images/logo.jpg" alt="">
+                <img src="./images/gvc.png" alt="">
             </div>
             <div class="about_text">
                 <h2>About Ghana Vehicle Check</h2>

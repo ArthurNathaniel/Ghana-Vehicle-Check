@@ -9,7 +9,7 @@
 </div>
 <div class="navbar_all">
     <a href="index.php">
-        <div class="logo">
+        <div class="logo gvc_logo">
 
         </div>
     </a>

@@ -34,3 +34,26 @@ CREATE TABLE dvla_personnel (
 );
 ALTER TABLE dvla_personnel
 ADD profile_picture VARCHAR(255) DEFAULT 'dvla_profile.png';
+
+
+CREATE TABLE vehicle_registration (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    registration_date DATE,
+    license_plate_number VARCHAR(20),
+    vehicle_make VARCHAR(50),
+    vehicle_model VARCHAR(50),
+    vehicle_year YEAR,
+    vehicle_color VARCHAR(20),
+    owner_name VARCHAR(100),
+    owner_dob DATE,
+    owner_address TEXT,
+    owner_phone VARCHAR(15),
+    owner_email VARCHAR(100),
+    driver_name VARCHAR(100),
+    driver_dob DATE,
+    driver_address TEXT,
+    driver_phone VARCHAR(15),
+    driver_email VARCHAR(100),
+    license_start_date DATE,
+    license_expiry_date DATE
+);

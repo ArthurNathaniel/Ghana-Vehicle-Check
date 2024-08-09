@@ -12,7 +12,6 @@ body {
     font-family: "Onest", sans-serif;
     color: #5B5E6B;
     overflow-y: scroll;
-
 }
 
 h1,
@@ -22,12 +21,7 @@ h4,
 h5,
 h6 {
     font-family: "Sora", sans-serif;
-
 }
-
-
-
-
 
 .header_all {
     display: flex;
@@ -36,8 +30,6 @@ h6 {
     padding: 0 7%;
     padding-block: 5px;
 }
-
-
 
 .motto p {
     color: #fff;
@@ -66,13 +58,13 @@ h6 {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-
 }
-
+.gvc_logo{
+    background-image: url(../images/gvc.png);
+  }
 .nav_links a {
     padding: 15px;
     color: #000;
-    /* text-transform: uppercase; */
 }
 
 .nav_links a:hover {
@@ -85,21 +77,14 @@ h6 {
 
 .accounts button {
     padding: 15px 15px;
-    /* background-color: #d3b61f;
-    background-color: #002952; */
     background-color: transparent;
-    /* border-radius: 40px; */
-    /* color: #fff; */
     border: none;
     font-size: 16px;
-
 }
-
 
 .accounts i {
     color: #d3b61f;
 }
-
 
 .social_media a {
     padding: 10px;
@@ -110,8 +95,6 @@ h6 {
     color: #fff;
 }
 
-
-
 #toggleButton {
     display: none;
     background-color: #002952;
@@ -121,7 +104,6 @@ h6 {
 .mobile {
     display: none;
 }
-
 
 .swiper {
     width: 100%;
@@ -146,12 +128,10 @@ h6 {
 
 .hero {
     position: relative;
-
 }
 
 .hero img {
     height: 100vh;
-
 }
 
 .hero_text {
@@ -180,8 +160,6 @@ h6 {
     color: #fff;
 }
 
-
-
 .about_grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -189,7 +167,9 @@ h6 {
     padding: 0 7%;
     margin-top: 50px;
 }
-
+.about_img img{
+width: 80%;
+}
 .about_text h2 {
     color: #002952;
 }
@@ -205,8 +185,6 @@ h6 {
     padding: 0 7%;
     margin-top: 50px;
     background-color: #fff;
-  
-
 }
 
 .feature_box {
@@ -219,11 +197,9 @@ h6 {
 }
 
 .feature_box i {
-
     color: #d3b61f;
     font-size: 45px;
     margin-bottom: 10px;
-
 }
 
 .feature_box h3 {
@@ -231,19 +207,14 @@ h6 {
     color: #002952;
 }
 
-
-
-
-
-.footer{
+.footer {
     margin-top: 70px;
     background-color: #002952;
     padding: 0 7%;
-    padding-block: 30px;
+    padding-block: 50px;
     text-align: center;
     color: #fff;
 }
-
 
 @media only screen and (max-width: 1110px) {
     #toggleButton {
@@ -253,7 +224,6 @@ h6 {
         border: none;
         padding: 15px;
         color: #fff;
-
     }
 
     #toggleButton i {
