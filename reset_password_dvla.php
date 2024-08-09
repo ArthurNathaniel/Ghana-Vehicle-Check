@@ -6,30 +6,29 @@ $success_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
+    $reset_code = $_POST['reset_code'];
+    $new_password = $_POST['new_password'];
 
-    // Check if email exists in the database
-    $sql = "SELECT * FROM police WHERE email = ?";
+    // Check if email and reset code match in the database
+    $sql = "SELECT * FROM dvla_personnel WHERE email = ? AND reset_code = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email);
+    $stmt->bind_param("ss", $email, $reset_code);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-
-        // Generate a random reset code
-        $reset_code = rand(100000, 999999);
-
-        // Store the reset code in the database
-        $update_sql = "UPDATE police SET reset_code = ? WHERE email = ?";
+        // Update the password
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+        $update_sql = "UPDATE dvla_personnel SET password = ?, reset_code = NULL WHERE email = ?";
         $update_stmt = $conn->prepare($update_sql);
-        $update_stmt->bind_param("ss", $reset_code, $email);
+        $update_stmt->bind_param("ss", $hashed_password, $email);
         $update_stmt->execute();
 
-        // Set the success message
-        $success_message = "A reset code has been sent to your email.";
+        $success_message = "Your password has been reset. You can now log in with your new password.";
+        header("Location: dvla_login.php?reset=success");
+        exit();
     } else {
-        $error_message = "No police found with that email.";
+        $error_message = "Invalid email or reset code.";
     }
 }
 ?>
@@ -39,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
+    <title>Reset Password</title>
     <?php include 'cdn.php'; ?>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/auth.css">
@@ -50,8 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="auth_forms">
         <div class="logo"></div>
         <div class="forms_title">
-            <h2>FORGOT PASSWORD</h2>
-            <p>GHANA VEHICLE CHECK - MOTOR TRAFFIC AND TRANSPORT DEPARTMENT (MTTD)</p>
+            <h2>RESET PASSWORD</h2>
+            <p>
+            GHANA VEHICLE CHECK - MOTOR TRAFFIC AND TRANSPORT DEPARTMENT (MTTD)
+            </p>
         </div>
         <?php if ($error_message != ""): ?>
             <div class="error_message error" id="error-message">
@@ -62,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if ($success_message != ""): ?>
             <div class="success_message" id="success-message">
                 <?php echo $success_message; ?>
-                <span class="close-btns" onclick="closeSuccess()">x</span>
+                <span class="close-btn" onclick="closeSuccess()">x</span>
             </div>
         <?php endif; ?>
         <form method="post" action="">
@@ -71,35 +72,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="email" placeholder="Enter your email" name="email" required>
             </div>
             <div class="forms">
-                <button type="submit">Send Reset Code</button>
+                <label>Reset Code: </label>
+                <input type="text" placeholder="Enter the reset code" name="reset_code" required>
+            </div>
+            <div class="forms">
+                <label>New Password: </label>
+                <input type="password" id="password" placeholder="Enter your new password" name="new_password" required>
+            </div>
+            <div class="show_password">
+                <input type="checkbox" id="showPassword">
+                Show password
+            </div>
+            <div class="forms">
+                <button type="submit">Reset Password</button>
             </div>
         </form>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-    // Initialize EmailJS
-    (function() {
-        emailjs.init('KUBS-FeyuOZceuDVf');
-    })();
 
-    // Send email with EmailJS
-    <?php if ($success_message != ""): ?>
-        document.addEventListener("DOMContentLoaded", function() {
-            emailjs.send('service_udiacji', 'template_2uod608', {
-                email: '<?php echo $email; ?>',
-                reset_code: '<?php echo $reset_code; ?>'
-            }).then(function(response) {
-                console.log('SUCCESS!', response.status, response.text);
-                window.location.href = 'reset_password.php?email=' + encodeURIComponent('<?php echo $email; ?>');
-            }, function(error) {
-                console.log('FAILED...', error);
-                document.getElementById('success-message').innerHTML = 'Failed to send reset code. Please try again.';
-            });
-        });
-    <?php endif; ?>
+        // Show password toggle
+        document.getElementById('showPassword').addEventListener('change', function() {
+        var pinInput = document.getElementById('password');
+        pinInput.type = this.checked ? 'text' : 'password';
+    });
 
     // Close error message with animation
     function closeError() {

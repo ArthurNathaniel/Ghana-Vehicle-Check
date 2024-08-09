@@ -2,12 +2,14 @@
     <div class="logo"></div>
     <div class="links">
     <?php if (isset($_SESSION['admin']) && $_SESSION['admin'] === 'admin') : ?>
-        <h3><span class="icon"><i class="fa-solid fa-chart-simple"></i></span> Admin</h3>
+        <h3><span class="icon"><i class="fa-solid fa-chart-simple"></i></span> MTTD DEPARTMENT</h3>
         <a href="dashboard.php">Dashboard</a>
         <a href="register_police.php">Register Police</a>
-        <a href="view_registered_police.php">View Registered Police</a>
-        <a href="register_vehicle.php">Register Vehicle</a>
-        <a href="view_registered_vehicles.php">View Registered Vehicles</a>
+        <a href="view_registered_police.php">Registered Police</a>
+        <h3><span class="icon"><i class="fa-solid fa-chart-simple"></i></span> DVLA DEPARTMENT</h3>
+        <a href="">Dashboard</a>
+        <a href="register_dvla_personnel.php">Register DVLA Personmel</a>
+        <a href="view_dvla_personnel.php">Registered DVLA Personnels</a>
         <a href="logout.php">
             <h3><i class="fas fa-sign-out-alt"></i> LOGOUT</h3>
         </a>
@@ -18,6 +20,18 @@
     <a href="police_dashboard.php">Dashboard</a>
     <a href="view_police_profile.php">Profile</a>
     <a href="">Search Vechile</a>
+ 
+    <a href="police_logout.php">
+        <h3><i class="fas fa-sign-out-alt"></i> LOGOUT</h3>
+    </a>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['dvla_personnel'])): ?>
+    <h3><span class="icon"><i class="fa-solid fa-chart-simple"></i></span> DVLA</h3>
+    <a href="police_dashboard.php">Dashboard</a>
+    <a href="view_police_profile.php">Profile</a>
+    <a href="">Search Vechile</a>
+ 
     <a href="police_logout.php">
         <h3><i class="fas fa-sign-out-alt"></i> LOGOUT</h3>
     </a>
@@ -54,4 +68,6 @@
             icon.classList.add("fa-bars-staggered");
         }
     });
+
+  
 </script>

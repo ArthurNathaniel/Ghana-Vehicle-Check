@@ -5,26 +5,26 @@ session_start();
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username_or_email = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM police WHERE username = ? OR email = ?";
+    $sql = "SELECT * FROM dvla_personnel WHERE email = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $username_or_email, $username_or_email);
+    $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
-            $_SESSION['police'] = $row['username'];
-            header("Location: police_dashboard.php");
+            $_SESSION['dvla_personnel'] = $row['email'];
+            header("Location: dvla_dashboard.php");
             exit();
         } else {
             $error_message = "Invalid password.";
         }
     } else {
-        $error_message = "No police found with that username or email.";
+        $error_message = "No DVLA personnel found with that email.";
     }
 }
 ?>
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Police Login</title>
+    <title>DVLA Login</title>
     <?php include 'cdn.php' ?>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/auth.css">
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="auth_forms">
         <div class="logo"></div>
         <div class="forms_title">
-            <h2>POLICE - LOG IN</h2>
+            <h2>DVLA - LOG IN</h2>
             <p>GHANA VEHICLE CHECK - MOTOR TRAFFIC AND TRANSPORT DEPARTMENT (MTTD)</p>
         </div>
         <?php if ($error_message != ""): ?>
@@ -67,8 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
         <form method="post" action="">
             <div class="forms">
-                <label>Username or Email: </label>
-                <input type="text" placeholder="Enter your username or email" name="username" required>
+                <label>Email: </label>
+                <input type="email" placeholder="Enter your email" name="email" required>
             </div>
             <div class="forms">
                 <label>Password: </label>
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit">Login</button>
             </div>
             <div class="forms forgot_password">
-            <p><a href="forgot_password.php">Forgot your password?</a></p>
+            <p><a href="forgot_password_dvla.php">Forgot your password?</a></p>
             </div>
         </form>
     </div>

@@ -42,12 +42,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'cdn.php'; ?>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/auth.css">
+    <link rel="stylesheet" href="./css/register_police.css">
 </head>
 <body>
-<div class="auth_all">
+<div class="register_all">
     <div class="auth_forms">
+        <div class="logo"></div>
         <div class="forms_title">
             <h2>RESET PASSWORD</h2>
+            <p>
+            GHANA VEHICLE CHECK - MOTOR TRAFFIC AND TRANSPORT DEPARTMENT (MTTD)
+            </p>
         </div>
         <?php if ($error_message != ""): ?>
             <div class="error_message error" id="error-message">
@@ -72,7 +77,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="forms">
                 <label>New Password: </label>
-                <input type="password" placeholder="Enter your new password" name="new_password" required>
+                <input type="password" id="password" placeholder="Enter your new password" name="new_password" required>
+            </div>
+            <div class="show_password">
+                <input type="checkbox" id="showPassword">
+                Show password
             </div>
             <div class="forms">
                 <button type="submit">Reset Password</button>
@@ -83,6 +92,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 <script>
+
+        // Show password toggle
+        document.getElementById('showPassword').addEventListener('change', function() {
+        var pinInput = document.getElementById('password');
+        pinInput.type = this.checked ? 'text' : 'password';
+    });
+
     // Close error message with animation
     function closeError() {
         anime({

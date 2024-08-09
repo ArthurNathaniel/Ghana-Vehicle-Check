@@ -21,7 +21,6 @@ $result = $conn->query($sql);
     <?php include 'cdn.php'; ?>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/view_registered_police.css">
-  
 </head>
 <body>
     <?php include 'header.php'; ?>
@@ -29,8 +28,11 @@ $result = $conn->query($sql);
     <div class="view_all">
         <div class="title">
             <h2>Registered Police Personnel</h2>
+           <div class="search-container">
+           <input type="text" id="searchInput" placeholder="Search police personnel...">
+           </div>
         </div>
-        <table>
+        <table id="policeTable">
             <thead>
                 <tr>
                     <th>Profile Picture</th>
@@ -51,15 +53,16 @@ $result = $conn->query($sql);
                         <td><?php echo htmlspecialchars($row['middle_name']); ?></td>
                         <td><?php echo htmlspecialchars($row['first_name']); ?></td>
                         <td><?php echo htmlspecialchars($row['badge_number']); ?></td>
-                        <td class="actions">
+                        <td class="actions act">
                             <button class="view-details" data-id="<?php echo $row['id']; ?>"><i class="fas fa-eye"></i></button>
                             <button class="edit-details" data-id="<?php echo $row['id']; ?>"><i class="fas fa-edit"></i></button>
-                            <button class="delete-details" data-id="<?php echo $row['id']; ?>"><i class="fas fa-trash-alt"></i></button>
+                            <a href="#" class="delete-details" data-id="<?php echo $row['id']; ?>"><i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
         </table>
+        <div id="noResults" style="display:none;">No police personnel found.</div>
     </div>
 
     <!-- Modal -->
@@ -122,16 +125,17 @@ $result = $conn->query($sql);
             });
         });
 
-        // Handle "Delete" button click
-        var deleteButtons = document.querySelectorAll(".delete-details");
+        // Handle "Delete" link click
+        var deleteLinks = document.querySelectorAll(".delete-details");
 
-        deleteButtons.forEach(function(button) {
-            button.addEventListener("click", function() {
+        deleteLinks.forEach(function(link) {
+            link.addEventListener("click", function(event) {
+                event.preventDefault();
                 var id = this.getAttribute("data-id");
                 if (confirm("Are you sure you want to delete this police profile?")) {
                     // Send delete request via AJAX
                     fetch('delete_police_profile.php?id=' + id, {
-                        method: 'DELETE'
+                        method: 'GET'
                     })
                     .then(response => response.text())
                     .then(data => {
@@ -157,6 +161,32 @@ $result = $conn->query($sql);
                 modal.style.display = "none";
             }
         }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            var filter = this.value.toLowerCase();
+            var rows = document.querySelectorAll('#policeTable tbody tr');
+            var found = false;
+
+            rows.forEach(function(row) {
+                var cells = row.getElementsByTagName('td');
+                var match = false;
+                for (var i = 0; i < cells.length; i++) {
+                    if (cells[i].textContent.toLowerCase().indexOf(filter) > -1) {
+                        match = true;
+                        break;
+                    }
+                }
+                if (match) {
+                    row.style.display = '';
+                    found = true;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            document.getElementById('noResults').style.display = found ? 'none' : 'block';
+        });
     </script>
 </body>
 </html>

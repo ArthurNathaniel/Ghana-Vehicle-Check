@@ -91,3 +91,29 @@
     margin-top: 15px;
     display: flex;
 }
+
+.act{
+    display: flex;
+    justify-content: space-between;
+ 
+}
+.act a{
+    color: #002952;
+}
+
+.search-container{
+    margin-block: 40px;
+    width: 100%;
+
+}
+.search-container input{
+    width: 100%;
+    height: 44px;
+    border: 1.5px solid #888;
+    border-radius:5px;
+    padding-left: 3%;
+}
+
+.search-container input:focus{
+  outline: none;
+}

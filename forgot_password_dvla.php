@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
 
     // Check if email exists in the database
-    $sql = "SELECT * FROM police WHERE email = ?";
+    $sql = "SELECT * FROM dvla_personnel WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $reset_code = rand(100000, 999999);
 
         // Store the reset code in the database
-        $update_sql = "UPDATE police SET reset_code = ? WHERE email = ?";
+        $update_sql = "UPDATE dvla_personnel SET reset_code = ? WHERE email = ?";
         $update_stmt = $conn->prepare($update_sql);
         $update_stmt->bind_param("ss", $reset_code, $email);
         $update_stmt->execute();
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Set the success message
         $success_message = "A reset code has been sent to your email.";
     } else {
-        $error_message = "No police found with that email.";
+        $error_message = "No dvla_personnel found with that email.";
     }
 }
 ?>
@@ -88,12 +88,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Send email with EmailJS
     <?php if ($success_message != ""): ?>
         document.addEventListener("DOMContentLoaded", function() {
-            emailjs.send('service_udiacji', 'template_2uod608', {
+            emailjs.send('service_udiacji', 'template_54jkk49', {
                 email: '<?php echo $email; ?>',
                 reset_code: '<?php echo $reset_code; ?>'
             }).then(function(response) {
                 console.log('SUCCESS!', response.status, response.text);
-                window.location.href = 'reset_password.php?email=' + encodeURIComponent('<?php echo $email; ?>');
+                window.location.href = 'reset_password_dvla.php?email=' + encodeURIComponent('<?php echo $email; ?>');
             }, function(error) {
                 console.log('FAILED...', error);
                 document.getElementById('success-message').innerHTML = 'Failed to send reset code. Please try again.';
