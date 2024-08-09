@@ -128,3 +128,9 @@ input[type="checkbox"]:checked {
     color: #000;
     font-weight: 700;
 }
+
+.dvla_logo{
+    background-image: url(../images/dvla.png);
+   
+  
+  }

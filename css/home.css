@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=Sora:wght@100..800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Onest", sans-serif;
+}
+
+body {
+  font-family: "Onest", sans-serif;
+  color: #5B5E6B;
+  overflow-y: scroll;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Sora", sans-serif;
+
+}
+
+
+
+
+
+.header_all {
+    display: flex;
+    justify-content: space-between;
+    background-color: #2C2C74;
+    padding: 0 7%;
+    padding-block: 5px;
+}
+
+.motto span {
+    color: #2C2C74;
+    padding-right: 15px;
+    font-style: normal;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.motto p {
+    color: #fff;
+    font-family: "Sora", sans-serif;
+}
+
+.navbar_all {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 0 7%;
+    position: sticky;
+    top: 0;
+    z-index: 454;
+    padding-block: 5px;
+    width: 100%;
+    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.logo {
+    height: 95px;
+    width: 150px;
+    background-image: url(../images/logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
+.nav_links a {
+    padding: 15px;
+    color: #000;
+    /* text-transform: uppercase; */
+}
+
+.nav_links a:hover {
+    color: #2C2C74;
+}
+
+.mobile a {
+    color: #000;
+}
+
+.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #2C2C74;
+    width: 250px;
+    z-index: 701;
+}
+
+.dropdown-content a {
+    color: #fff;
+    padding: 12px 16px;
+    display: block;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #fff;
+    color: #2C2C74;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+
+}
+
+.social_media a {
+    padding: 10px;
+    height: 30px;
+    width: 30px;
+    font-size: 20px;
+    background-color: #2C2C74;
+    color: #fff;
+}
+
+
+
+#toggleButton {
+    display: none;
+    background-color: #2C2C74;
+}
+
+.mobile {
+    display: none;
+}

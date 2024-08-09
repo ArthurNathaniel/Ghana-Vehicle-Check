@@ -45,19 +45,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <img src="./images/signup_01.jpg" alt="">
+                    <img src="./images/dvla_01.jpg" alt="">
                 </div>
                 <div class="swiper-slide">
-                    <img src="./images/signup_02.jpg" alt="">
+                    <img src="./images/dvla_02.jpg" alt="">
                 </div>
             </div>
         </div>
     </div>
     <div class="auth_forms">
-        <div class="logo"></div>
+        <div class="logo dvla_logo"></div>
         <div class="forms_title">
             <h2>DVLA - LOG IN</h2>
-            <p>GHANA VEHICLE CHECK - MOTOR TRAFFIC AND TRANSPORT DEPARTMENT (MTTD)</p>
+            <p>GHANA VEHICLE CHECK</p>
         </div>
         <?php if ($error_message != ""): ?>
             <div class="error_message error" id="error-message">
