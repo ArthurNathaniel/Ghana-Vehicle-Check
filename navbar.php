@@ -1,10 +1,10 @@
 <div class="header_all">
     <div class="motto">
-        <p>THE NO. 1 MEDIA SCHOOL IN GHANA</p>
+        <p>Ghana Vehicle Check</p>
     </div>
     <div class="social_media">
         <a href="https://web.facebook.com/IBMandJ" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-        <a href="">Police Login <i class="fas fa-shield-alt"></i></a></a> 
+        <a href="" target="_blank"><i class="fa-brands fa-instagram"></i></a>
     </div>
 </div>
 <div class="navbar_all">
@@ -17,18 +17,17 @@
         <a href="index.php">Home</a>
         <a href="">About</a>
         <a href="">Features</a>
-        <a href="contact.php">Contact Us</a>
+ 
     </div>
-    <div class="accounts nav_links">
-    <div class="dropdown">
-            <a href="#">Academics <span><i class="fa-solid fa-angle-down"></i></span></a>
-            <div class="dropdown-content">
-              <a href="">Police Login <i class="fas fa-shield-alt"></i></a></a> 
-<a href="">DVLA Login <i class="fas fa-car"></i></a>
-            </div>
-            
-        </div>
-        <a href="">Admin</a>
+    <div class="accounts ">
+  
+ <a href="police_login.php">
+ <button>  <i class="fas fa-user"></i> Login Police</button>
+ </a>
+ |
+  <a href="dvla_login.php">
+  <button>   <i class="fas fa-user"></i> Login DVLA</button>
+  </a>
     </div>
        
 
@@ -36,35 +35,11 @@
         <i class="fa-solid fa-bars-staggered"></i>
     </button>
     <div class="mobile">
-        <a href="index.php">Home</a>
-        <div class="dropdown">
-            <a href="#">About the institution <span><i class="fa-solid fa-angle-down"></i></span></a>
-            <div class="dropdown-content">
-                <a href="about.php"> History / Our Mission & Vision</a>
-                <a href="governing_council.php">Governing Council</a>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <a href="#">Academics <span><i class="fa-solid fa-angle-down"></i></span></a>
-            <div class="dropdown-content">
-                <a href="calendar.php">Calender</a>
-                <a href="department.php">Department</a>
-                <a href="handbook.php"> Students handbook / Statutes</a>
-
-            </div>
-        </div>
-        <a href="src.php">SRC</a>
-
-        <div class="dropdown">
-            <a href="#">Admission <span><i class="fa-solid fa-angle-down"></i></span></a>
-            <div class="dropdown-content">
-                <a href="admission.php">How to apply</a>
-                <a href="online_admission.php">Online Admission</a>
-            </div>
-        </div>
-        <a href="alumni.php">Alumni</a>
-        <a href="contact.php">Contact Us</a>
+    <a href="index.php">Home</a>
+        <a href="">About</a>
+        <a href="">Features</a>
+        <a href=""><i class="fas fa-user"></i> Login Police</a>
+        <a href=""><i class="fas fa-user"></i> Login DVLA</a>
     </div>
 </div>
 

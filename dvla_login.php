@@ -50,6 +50,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="swiper-slide">
                     <img src="./images/dvla_02.jpg" alt="">
                 </div>
+                <div class="swiper-slide">
+                    <img src="./images/dvla_03.jpg" alt="">
+                </div>
             </div>
         </div>
     </div>

@@ -37,7 +37,7 @@
     <a href="view_police_profile.php">Profile</a>
     <a href="">Search Vechile</a>
  
-    <a href="police_logout.php">
+    <a href="dvla_logout.php">
         <h3><i class="fas fa-sign-out-alt"></i> LOGOUT</h3>
     </a>
 <?php endif; ?>

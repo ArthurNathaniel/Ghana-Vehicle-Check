@@ -1,17 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=Sora:wght@100..800&display=swap');
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  text-decoration: none;
-  font-family: "Onest", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: "Onest", sans-serif;
 }
 
 body {
-  font-family: "Onest", sans-serif;
-  color: #5B5E6B;
-  overflow-y: scroll;
+    font-family: "Onest", sans-serif;
+    color: #5B5E6B;
+    overflow-y: scroll;
+
 }
 
 h1,
@@ -20,7 +21,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Sora", sans-serif;
+    font-family: "Sora", sans-serif;
 
 }
 
@@ -31,22 +32,17 @@ h6 {
 .header_all {
     display: flex;
     justify-content: space-between;
-    background-color: #2C2C74;
+    background-color: #002952;
     padding: 0 7%;
     padding-block: 5px;
 }
 
-.motto span {
-    color: #2C2C74;
-    padding-right: 15px;
-    font-style: normal;
-    text-transform: uppercase;
-    font-weight: 700;
-}
+
 
 .motto p {
     color: #fff;
     font-family: "Sora", sans-serif;
+    text-transform: uppercase;
 }
 
 .navbar_all {
@@ -66,7 +62,7 @@ h6 {
 .logo {
     height: 95px;
     width: 150px;
-    background-image: url(../images/logo.png);
+    background-image: url(../images/logo.jpg);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -80,48 +76,37 @@ h6 {
 }
 
 .nav_links a:hover {
-    color: #2C2C74;
+    color: #002952;
 }
 
 .mobile a {
     color: #000;
 }
 
-.dropdown {
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #2C2C74;
-    width: 250px;
-    z-index: 701;
-}
-
-.dropdown-content a {
-    color: #fff;
-    padding: 12px 16px;
-    display: block;
-    text-decoration: none;
-}
-
-.dropdown-content a:hover {
-    background-color: #fff;
-    color: #2C2C74;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
+.accounts button {
+    padding: 15px 15px;
+    /* background-color: #d3b61f;
+    background-color: #002952; */
+    background-color: transparent;
+    /* border-radius: 40px; */
+    /* color: #fff; */
+    border: none;
+    font-size: 16px;
 
 }
+
+
+.accounts i {
+    color: #d3b61f;
+}
+
 
 .social_media a {
     padding: 10px;
     height: 30px;
     width: 30px;
     font-size: 20px;
-    background-color: #2C2C74;
+    background-color: #002952;
     color: #fff;
 }
 
@@ -129,9 +114,200 @@ h6 {
 
 #toggleButton {
     display: none;
-    background-color: #2C2C74;
+    background-color: #002952;
+    cursor: pointer;
 }
 
 .mobile {
     display: none;
+}
+
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero {
+    position: relative;
+
+}
+
+.hero img {
+    height: 100vh;
+
+}
+
+.hero_text {
+    background-color: #00295257;
+    position: absolute;
+    color: #fff;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero_text h1 {
+    font-size: 45px;
+}
+
+.btn {
+    padding: 15px 45px;
+    border: 2px solid;
+    margin-top: 50px;
+    background-color: #d3b61f;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+}
+
+
+
+.about_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding: 0 7%;
+    margin-top: 50px;
+}
+
+.about_text h2 {
+    color: #002952;
+}
+
+.about_text p {
+    margin-top: 20px;
+}
+
+.features_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    padding: 0 7%;
+    margin-top: 50px;
+    background-color: #fff;
+  
+
+}
+
+.feature_box {
+    border: 1.5px dashed #002952;
+    padding: 0 5%;
+    padding-block: 50px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.feature_box i {
+
+    color: #d3b61f;
+    font-size: 45px;
+    margin-bottom: 10px;
+
+}
+
+.feature_box h3 {
+    margin-bottom: 10px;
+    color: #002952;
+}
+
+
+
+
+
+.footer{
+    margin-top: 70px;
+}
+
+
+@media only screen and (max-width: 1110px) {
+    #toggleButton {
+        display: block;
+        background-color: #002952;
+        background-color: transparent;
+        border: none;
+        padding: 15px;
+        color: #fff;
+
+    }
+
+    #toggleButton i {
+        font-weight: 900;
+        font-size: 20px;
+        color: #002952;
+    }
+
+    .nav_links,
+    .accounts {
+        display: none;
+    }
+
+    .mobile {
+        position: absolute;
+        top: 100px;
+        z-index: 4554;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        display: none;
+    }
+
+    .mobile a {
+        border-top: 2px solid #534f4f2a;
+        width: 100%;
+        padding: 0 10%;
+        padding-block: 20px;
+    }
+
+
+    .features_grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+
+}
+
+@media only screen and (max-width: 950px) {
+    .about_grid {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+
+@media only screen and (max-width: 750px) {
+    .about_grid {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .features_grid {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
 }
