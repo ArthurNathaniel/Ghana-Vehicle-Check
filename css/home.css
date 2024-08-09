@@ -237,6 +237,11 @@ h6 {
 
 .footer{
     margin-top: 70px;
+    background-color: #002952;
+    padding: 0 7%;
+    padding-block: 30px;
+    text-align: center;
+    color: #fff;
 }
 
 
