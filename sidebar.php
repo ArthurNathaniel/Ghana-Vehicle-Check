@@ -1,7 +1,9 @@
 <div class="sidebar_all">
-    <div class="logo"></div>
+    
     <div class="links">
+   
     <?php if (isset($_SESSION['admin']) && $_SESSION['admin'] === 'admin') : ?>
+        <div class="logo"></div>
         <h3><span class="icon"><i class="fa-solid fa-chart-simple"></i></span> MTTD DEPARTMENT</h3>
         <a href="dashboard.php">Dashboard</a>
         <a href="register_police.php">Register Police</a>
@@ -16,7 +18,8 @@
     <?php endif; ?>
 
     <?php if (isset($_SESSION['police'])): ?>
-    <h3><span class="icon"><i class="fa-solid fa-chart-simple"></i></span> Police</h3>
+        <div class="logo"></div>
+    <h3><span class="icon"><i class="fa-solid fa-chart-simple"></i></span> MTTD - POLICE</h3>
     <a href="police_dashboard.php">Dashboard</a>
     <a href="view_police_profile.php">Profile</a>
     <a href="">Search Vechile</a>
@@ -27,7 +30,9 @@
 <?php endif; ?>
 
 <?php if (isset($_SESSION['dvla_personnel'])): ?>
-    <h3><span class="icon"><i class="fa-solid fa-chart-simple"></i></span> DVLA</h3>
+    <div class="logo dvla_logo"></div>
+    <h3><span class="icon"><i class="fas fa-car"></i>
+    </span> DVLA</h3>
     <a href="police_dashboard.php">Dashboard</a>
     <a href="view_police_profile.php">Profile</a>
     <a href="">Search Vechile</a>

@@ -70,7 +70,11 @@ h6 {
   background-repeat: no-repeat;
   background-size: cover;
 }
+.dvla_logo{
+  background-image: url(../images/dvla.png);
+  margin-left: 4%;
 
+}
 .links {
   display: flex;
   flex-direction: column;
@@ -103,6 +107,8 @@ h6 {
   font-size: 18px !important;
   font-weight: 500;
   margin: 0;
+  display: flex;
+  gap: 10px;
 }
 
 .links a:hover {
