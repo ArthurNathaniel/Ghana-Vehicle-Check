@@ -21,3 +21,4 @@ CREATE TABLE police (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE police ADD COLUMN reset_code VARCHAR(6);
