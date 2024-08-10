@@ -215,7 +215,9 @@ width: 80%;
     text-align: center;
     color: #fff;
 }
-
+.footer a{
+    color: #fff;
+}
 @media only screen and (max-width: 1110px) {
     #toggleButton {
         display: block;

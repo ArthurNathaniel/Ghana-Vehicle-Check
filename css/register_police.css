@@ -106,3 +106,23 @@
     font-weight: bold;
 }
 
+.title{
+    text-align: center;
+}
+.title h2{
+    color: #002952;
+}
+
+.headings{
+    margin-top: 30px;
+}
+
+.headings h3{
+    color: #002952;
+}
+
+.form{
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}

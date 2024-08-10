@@ -109,6 +109,8 @@
         </script>
         | Ghana Vechile Check
         </p>
+        <br>
+        <p><a href="login.php"> <i class="fas fa-user"></i> Login as an Administrator</a></p>
     </footer>
     <script src="./js/swiper.js"></script>
 </body>

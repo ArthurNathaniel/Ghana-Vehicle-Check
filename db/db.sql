@@ -36,24 +36,45 @@ ALTER TABLE dvla_personnel
 ADD profile_picture VARCHAR(255) DEFAULT 'dvla_profile.png';
 
 
-CREATE TABLE vehicle_registration (
+CREATE TABLE vehicles (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    registration_date DATE,
-    license_plate_number VARCHAR(20),
-    vehicle_make VARCHAR(50),
-    vehicle_model VARCHAR(50),
-    vehicle_year YEAR,
-    vehicle_color VARCHAR(20),
-    owner_name VARCHAR(100),
-    owner_dob DATE,
-    owner_address TEXT,
-    owner_phone VARCHAR(15),
-    owner_email VARCHAR(100),
-    driver_name VARCHAR(100),
-    driver_dob DATE,
-    driver_address TEXT,
-    driver_phone VARCHAR(15),
-    driver_email VARCHAR(100),
-    license_start_date DATE,
-    license_expiry_date DATE
+    registration_date DATE NOT NULL,
+    license_plate VARCHAR(50) NOT NULL,
+    make VARCHAR(50) NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    year INT NOT NULL,
+    color VARCHAR(50) NOT NULL
 );
+
+CREATE TABLE owners (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vehicle_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    dob DATE NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    profile_picture VARCHAR(255) NOT NULL,
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE
+);
+
+CREATE TABLE drivers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vehicle_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    dob DATE NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    profile_picture VARCHAR(255) NOT NULL,
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE
+);
+
+CREATE TABLE licenses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vehicle_id INT NOT NULL,
+    start_date DATE NOT NULL,
+    expiry_date DATE NOT NULL,
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE
+);
+

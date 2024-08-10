@@ -32,8 +32,8 @@
             <div class="logo dvla_logo"></div>
             <h3><span class="icon"><i class="fas fa-car"></i>
                 </span> DVLA</h3>
-            <a href="police_dashboard.php">Dashboard</a>
-            <a href="view_police_profile.php">Profile</a>
+            <a href="dvla_dashboard.php">Dashboard</a>
+          <a href="register_vechile.php">Register Vehicle</a>
             <a href="">Search Vechile</a>
             
             <a href="dvla_logout.php">
