@@ -37,9 +37,9 @@ while ($row = $result_purpose_count->fetch_assoc()) {
 
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,37 +49,62 @@ $conn->close();
     <link rel="stylesheet" href="./css/dashboard.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
     <?php include 'header.php'; ?>
     <div class="dashboard">
-    <h2>DVLA Stats</h2>
-    
+        <h2>DVLA Stats</h2>
+        <!-- <div class="charts">
+            <div class="card">
+                <p>Total Drivers: </p>
+                <h1><?php echo $total_drivers; ?></h1>
+            </div>
+           <div class="card">
+            <p>Gender</p>
+           <div class="card_grid">
+           <p>Male Drivers: </p>
+         
+           <h1><p>Male Drivers:</p><?php echo isset($gender_data['male']) ? $gender_data['male'] : 0; ?></h1>
+           <p>Female Drivers: </p>
+           <h1><?php echo isset($gender_data['female']) ? $gender_data['female'] : 0; ?></h1>
+           </div>
+           </div>
+            <div class="card">
+            <p class="chart-title">License Categories</p>
+            <p><?php foreach ($category_data as $category => $count) {
+                    echo htmlspecialchars($category) . ": " . $count . "<br>";
+                } ?></p>
+            </div>
+           <div class="card">
+           <p class="chart-title">Purpose of Licenses</p>
+            <p><?php foreach ($purpose_data as $purpose => $count) {
+                    echo htmlspecialchars($purpose) . ": " . $count . "<br>";
+                } ?></p>
+           </div>
+        </div> -->
+
         <div class="charts">
-         <div class="stats">
-         <canvas id="totalDriversChart"></canvas>
-         </div>
-         <div class="stats">
-            <canvas id="genderChart"></canvas>
+            <div class="stats">
+                <canvas id="totalDriversChart"></canvas>
             </div>
             <div class="stats">
-            <canvas id="categoryChart"></canvas>
+                <canvas id="genderChart"></canvas>
             </div>
             <div class="stats">
-            <canvas id="purposeChart"></canvas>
+                <p>License Categories</p>
+                <canvas id="categoryChart"></canvas>
             </div>
-       
+            <div class="stats">
+                <p>Purpose of Licenses</p>
+                <canvas id="purposeChart"></canvas>
+            </div>
         </div>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <br><br><br><br><br><br>
     <?php include 'footer.php'; ?>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Total Drivers Chart
             var ctxTotalDrivers = document.getElementById('totalDriversChart').getContext('2d');
             var totalDriversChart = new Chart(ctxTotalDrivers, {
@@ -89,14 +114,13 @@ $conn->close();
                     datasets: [{
                         data: [<?php echo $total_drivers; ?>],
                         backgroundColor: [
-                                'rgb(255, 99, 132)',
-                                'rgb(54, 162, 235)',
-                                'rgb(255, 205, 86)',
-                                'rgb(75, 192, 192)',
-                                'rgb(153, 102, 255)',
-                                'rgb(255, 159, 64)'
-                            ],
-                        // borderColor: ['rgba(75, 192, 192, 1)'],
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                            'rgb(255, 159, 64)'
+                        ],
                         borderWidth: 1
                     }]
                 },
@@ -126,14 +150,13 @@ $conn->close();
                             <?php echo isset($gender_data['female']) ? $gender_data['female'] : 0; ?>
                         ],
                         backgroundColor: [
-                                'rgb(255, 99, 132)',
-                                'rgb(54, 162, 235)',
-                                'rgb(255, 205, 86)',
-                                'rgb(75, 192, 192)',
-                                'rgb(153, 102, 255)',
-                                'rgb(255, 159, 64)'
-                            ],
-                     
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                            'rgb(255, 159, 64)'
+                        ],
                         borderWidth: 1
                     }]
                 },
@@ -161,18 +184,18 @@ $conn->close();
                         label: '# of Licenses',
                         data: <?php echo json_encode(array_values($category_data)); ?>,
                         backgroundColor: [
-                                'rgb(255, 99, 132)',
-                                'rgb(54, 162, 235)',
-                                'rgb(255, 205, 86)',
-                                'rgb(75, 192, 192)',
-                                'rgb(153, 102, 255)',
-                                'rgb(255, 159, 64)'
-                            ],
-                        // borderColor: 'rgba(54, 162, 235, 1)',
-                        // borderWidth: 1
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                            'rgb(255, 159, 64)'
+                        ],
+                        borderWidth: 1
                     }]
                 },
                 options: {
+                    responsive: true,
                     scales: {
                         y: {
                             beginAtZero: true
@@ -199,19 +222,13 @@ $conn->close();
                     datasets: [{
                         data: <?php echo json_encode(array_values($purpose_data)); ?>,
                         backgroundColor: [
-                                'rgb(255, 99, 132)',
-                                'rgb(54, 162, 235)',
-                                'rgb(255, 205, 86)',
-                                'rgb(75, 192, 192)',
-                                'rgb(153, 102, 255)',
-                                'rgb(255, 159, 64)'
-                            ],
-                        // borderColor: [
-                        //     'rgba(255, 99, 132, 1)',
-                        //     'rgba(54, 162, 235, 1)',
-                        //     'rgba(255, 206, 86, 1)',
-                        //     'rgba(75, 192, 192, 1)'
-                        // ],
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)',
+                            'rgb(255, 159, 64)'
+                        ],
                         borderWidth: 1
                     }]
                 },
@@ -231,4 +248,5 @@ $conn->close();
         });
     </script>
 </body>
+
 </html>
