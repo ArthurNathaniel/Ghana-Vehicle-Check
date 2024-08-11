@@ -217,7 +217,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </div>
 
             <!-- Submit Button -->
-            <div class="submit_button">
+            <div class="forms forms_submit">
                 <button type="submit">Submit Application</button>
             </div>
         </form>

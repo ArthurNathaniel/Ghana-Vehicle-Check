@@ -66,6 +66,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
+    // Check for duplicate license_id
+    $stmt = $conn->prepare("SELECT * FROM driver_license_applications WHERE license_id = ?");
+    $stmt->bind_param("s", $license_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $_SESSION['error_message'] = "A record with this License ID already exists.";
+        header("Location: drivers_license.php");
+        exit();
+    }
+
+    $stmt->close();
+
     // Prepare and bind
     $stmt = $conn->prepare("INSERT INTO driver_license_applications 
         (license_id, full_name, date_of_birth, place_of_birth, nationality, gender, residential_address, phone_number, email_address, id_type, id_number, license_category, purpose_of_license, license_start_date, license_end_date, emergency_name, relationship, emergency_phone_number, profile_picture, medical_fitness_declaration, eye_test_results) 

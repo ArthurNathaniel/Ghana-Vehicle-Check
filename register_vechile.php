@@ -229,70 +229,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="forms_grid">
                 <div class="forms">
                     <label>Address: </label>
-                    <textarea name="owner_address" required></textarea>
+                    <input type="text"  name="owner_address" required>
+                    <!-- <textarea name="owner_address" required></textarea> -->
                 </div>
                 <div class="forms">
                     <label>Profile Picture: </label>
                     <input type="file" name="owner_profile_picture" accept="image/*" required>
                 </div>
             </div>
+           
             <div class="headings">
-                <h3>Driver Information</h3>
-            </div>
-            <div class="forms_grid">
-                <div class="forms">
-                    <label>Driver ID Number: </label>
-                    <input type="text" name="driver_id_number" value="<?php echo isset($_POST['driver_id_number']) ? $_POST['driver_id_number'] : generateDriverID(date('Y-m-d')); ?>" readonly required>
-                </div>
-                <div class="forms">
-                    <label>Full Name: </label>
-                    <input type="text" name="driver_name" required>
-                </div>
-            </div>
-            <div class="forms_grid">
-                <div class="forms">
-                    <label>Date of Birth: </label>
-                    <input type="date" name="driver_dob" required>
-                </div>
-                <div class="forms">
-                    <label>Phone Number: </label>
-                    <input type="text" name="driver_phone" required>
-                </div>
-            </div>
-            <div class="forms_grid">
-                <div class="forms">
-                    <label>Email: </label>
-                    <input type="email" name="driver_email" required>
-                </div>
-                <div class="forms">
-                    <label>Gender: </label>
-                    <select name="driver_gender" required>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                </div>
-            </div>
-            <div class="forms_grid">
-                <div class="forms">
-                    <label>Address: </label>
-                    <textarea name="driver_address" required></textarea>
-                </div>
-                <div class="forms">
-                    <label>Profile Picture: </label>
-                    <input type="file" name="driver_profile_picture" accept="image/*" required>
-                </div>
-            </div>
-            <div class="headings">
-                <h3>License Information</h3>
+                <h3>Insurance Information</h3>
             </div>
             <div class="forms_grid">
                 <div class="forms">
                     <label>Start Date: </label>
-                    <input type="date" name="license_start_date" required>
+                    <input type="date" name="insurance_start_date" required>
                 </div>
                 <div class="forms">
                     <label>Expiry Date: </label>
-                    <input type="date" name="license_expiry_date" required>
+                    <input type="date" name="insurance_expiry_date" required>
                 </div>
             </div>
             <div class="button_container">
