@@ -1,0 +1,133 @@
+.register_all{
+    padding: 0 20%;
+    margin-block: 50px;
+}
+.register_title {
+    text-align: center;
+}
+.register_title p{
+    margin-top: 20px;
+}
+.forms_grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.forms{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+}
+.forms input{
+    height: 44px;
+    width: 100%;
+    padding-left: 2%;
+    border-radius: 5px;
+    border: 1.5px solid #ddd;
+}
+
+.forms input:focus{
+    outline: none;
+}
+
+.forms select{
+    height: 44px;
+    width: 100%;
+    padding-left: 2%;
+    border-radius: 5px;
+    border: 1.5px solid #ddd;
+}
+
+
+.forms select:focus{
+    outline: none;
+}
+
+.forms button{
+    height: 44px;
+    width: 100%;
+    background-color: #002952;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+}
+
+
+.forms_submit{
+    margin-top: 50px;
+}
+
+.show_password{
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.error{
+    margin-top: 20px;
+    background-color: rgba(250, 128, 114, 0.568);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    padding-block: 10px;
+    border-radius: 5px;
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+.close-btn {
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+}
+
+.success_message{
+    margin-top: 20px;
+    background-color: rgba(136, 189, 58, 0.514);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    padding-block: 10px;
+    border-radius: 5px;
+    color: green;
+    margin-bottom: 10px;
+}
+
+.close-btns{
+    cursor: pointer;
+    color: green;
+    font-weight: bold;
+}
+
+.title{
+    text-align: center;
+}
+.title h2{
+    color: #002952;
+}
+
+.headings{
+    margin-top: 30px;
+}
+
+.headings h2{
+    color: #002952;
+}
+
+.form{
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+} 
+.dvla_logo{
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}

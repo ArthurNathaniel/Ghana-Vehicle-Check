@@ -35,46 +35,28 @@ CREATE TABLE dvla_personnel (
 ALTER TABLE dvla_personnel
 ADD profile_picture VARCHAR(255) DEFAULT 'dvla_profile.png';
 
-
-CREATE TABLE vehicles (
+CREATE TABLE driver_license_application_forms (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    registration_date DATE NOT NULL,
-    license_plate VARCHAR(50) NOT NULL,
-    make VARCHAR(50) NOT NULL,
-    model VARCHAR(50) NOT NULL,
-    year INT NOT NULL,
-    color VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE owners (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    vehicle_id INT NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    dob DATE NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
-    email VARCHAR(100) NOT NULL,
     profile_picture VARCHAR(255) NOT NULL,
-    FOREIGN KEY (vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE
-);
-
-CREATE TABLE drivers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    vehicle_id INT NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    dob DATE NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    profile_picture VARCHAR(255) NOT NULL,
-    FOREIGN KEY (vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE
-);
-
-CREATE TABLE licenses (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    vehicle_id INT NOT NULL,
-    start_date DATE NOT NULL,
-    expiry_date DATE NOT NULL,
-    FOREIGN KEY (vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE
+    full_name VARCHAR(255) NOT NULL,
+    date_of_birth DATE NOT NULL,
+    place_of_birth VARCHAR(255) NOT NULL,
+    nationality VARCHAR(255) NOT NULL,
+    gender VARCHAR(255) NOT NULL,
+    residential_address VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    email_address VARCHAR(255) NOT NULL,
+    id_type VARCHAR(255) NOT NULL,
+    id_number VARCHAR(255) NOT NULL,
+    license_category VARCHAR(255) NOT NULL,
+    purpose_of_license VARCHAR(255) NOT NULL,
+    medical_fitness_declaration VARCHAR(255) NOT NULL,
+    eye_test_results VARCHAR(255) NOT NULL,
+    emergency_name VARCHAR(255) NOT NULL,
+    relationship VARCHAR(255) NOT NULL,
+    emergency_phone_number VARCHAR(20) NOT NULL,
+    license_start_date DATE NOT NULL,
+    license_end_date DATE NOT NULL,
+    application_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

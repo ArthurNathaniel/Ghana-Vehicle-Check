@@ -33,7 +33,7 @@
             <h3><span class="icon"><i class="fas fa-car"></i>
                 </span> DVLA</h3>
             <a href="dvla_dashboard.php">Dashboard</a>
-          <a href="register_vechile.php">Register Vehicle</a>
+          <a href="drivers_license.php">Driver License Applications</a>
             <a href="">Search Vechile</a>
             
             <a href="dvla_logout.php">
