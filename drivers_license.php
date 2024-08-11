@@ -226,7 +226,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </div>
         </form>
     </div>
- 
+    <?php include 'footer.php'; ?>
+
     <script>
         function closeError() {
             document.querySelector('.error_message').style.display = 'none';

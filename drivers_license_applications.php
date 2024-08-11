@@ -6,11 +6,20 @@ if (!isset($_SESSION['dvla_personnel'])) {
     header("Location: dvla_login.php");
     exit();
 }
-// Fetch all driver license applications
+
+// Get search query from URL parameter
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Prepare SQL query with search filter
 $sql = "SELECT license_id, full_name, license_start_date, license_end_date, profile_picture, license_category, purpose_of_license FROM driver_license_applications";
+
+if (!empty($search)) {
+    $search = $conn->real_escape_string($search);
+    $sql .= " WHERE license_id LIKE '%$search%' OR full_name LIKE '%$search%' OR purpose_of_license LIKE '%$search%'";
+}
+
 $result = $conn->query($sql);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +33,18 @@ $result = $conn->query($sql);
 <body>
 <?php include 'header.php'; ?>
 <div class="view_all">
+  
+    <form id="searchForm">
+        <div class="forms">
+        <input type="text" id="searchInput" name="search" placeholder="Search by License ID, Name, or Purpose">
+        </div>
+     <div class="forms forms_submit">
+     <button type="submit" class="btn btn-primary">Search</button>
+     </div>
+    </form>
+    <div class="title">
     <h2>Driver License Applications</h2>
+    </div>
     <table>
         <thead>
             <tr>
@@ -38,27 +58,8 @@ $result = $conn->query($sql);
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
-            <?php if ($result->num_rows > 0) : ?>
-                <?php while($row = $result->fetch_assoc()) : ?>
-                    <tr>
-                        <td><img src="uploads/profile_pictures/<?php echo $row['profile_picture']; ?>" alt="Profile Picture" class="profile_table"></td>
-                        <td><?php echo $row['license_id']; ?></td>
-                        <td><?php echo $row['full_name']; ?></td>
-                        <td><?php echo $row['license_start_date']; ?></td>
-                        <td><?php echo $row['license_end_date']; ?></td>
-                        <td><?php echo $row['license_category']; ?></td>
-                        <td><?php echo $row['purpose_of_license']; ?></td>
-                        <td class="actions">
-                            <button class="btn btn-info btn-sm" onclick="viewApplication('<?php echo $row['license_id']; ?>')"><i class="fas fa-eye"></i></button>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            <?php else : ?>
-                <tr>
-                    <td colspan="8">No applications found.</td>
-                </tr>
-            <?php endif; ?>
+        <tbody id="applicationsTableBody">
+            <!-- Table rows will be dynamically inserted here -->
         </tbody>
     </table>
 </div>
@@ -84,30 +85,58 @@ $result = $conn->query($sql);
         <script>
             document.write(new Date().getFullYear())
         </script>
-        | Ghana Vechile Check</p>
+        | Ghana Vehicle Check</p>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+<?php include 'footer.php'; ?>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-function viewApplication(license_id) {
-    $.ajax({
-        url: 'view_application.php',
-        method: 'POST',
-        data: { license_id: license_id },
-        success: function(response) {
-            $('#viewModalBody').html(response);
-            $('#viewModal').modal('show');
-        }
+$(document).ready(function() {
+    // Load initial data
+    loadApplications('');
+
+    // Handle search form submission
+    $('#searchForm').on('submit', function(event) {
+        event.preventDefault();
+        var query = $('#searchInput').val();
+        loadApplications(query);
     });
-}
+    
+    // Function to load applications with search query
+    function loadApplications(query) {
+        $.ajax({
+            url: 'search_applications.php',
+            method: 'GET',
+            data: { search: query },
+            success: function(response) {
+                $('#applicationsTableBody').html(response);
+            }
+        });
+    }
+
+    // Function to view application details
+    window.viewApplication = function(license_id) {
+        $.ajax({
+            url: 'view_application.php',
+            method: 'POST',
+            data: { license_id: license_id },
+            success: function(response) {
+                $('#viewModalBody').html(response);
+                $('#viewModal').modal('show');
+            }
+        });
+    };
+});
 </script>
 </body>
 </html>
+
+
 <?php
 $conn->close();
 ?>

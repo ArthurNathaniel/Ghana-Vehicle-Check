@@ -1,15 +1,27 @@
 <?php
 include 'db.php';
+session_start();
+
+// Check if the user is logged in, if not then redirect to login page
+if (!isset($_SESSION['dvla_personnel'])) {
+    header("Location: dvla_login.php");
+    exit();
+}
 
 // Fetch vehicles from the database
-$sql = "SELECT * FROM vehicles";
-$result = $conn->query($sql);
+$query = "SELECT * FROM vehicle_registration";
+$result = $conn->query($query);
 
+$vehicles = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $vehicles[] = $row;
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,125 +29,159 @@ $result = $conn->query($sql);
     <?php include 'cdn.php'; ?>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/view_vehicles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Basic modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+     
+        img {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
 </head>
-
 <body>
     <?php include 'header.php'; ?>
-    <div class="view_vehicles_all">
-        <div class="title">
-            <h2>View Vehicles</h2>
+
+    <div class="view_all">
+        <h2>Registered Vehicles</h2>
+
+        <div class="forms">
+        <input type="text" id="searchInput" placeholder="Search for vehicles..." onkeyup="searchTable()">
         </div>
-        <table>
+
+        <table id="vehiclesTable">
             <thead>
                 <tr>
                     <th>License Plate Number</th>
                     <th>Make</th>
                     <th>Model</th>
-                    <th>Year</th>
-                    <th>License Information</th>
+                    <th>Owner ID Number</th>
+                    <th>Full Name</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?php echo $row['license_plate']; ?></td>
-                        <td><?php echo $row['make']; ?></td>
-                        <td><?php echo $row['model']; ?></td>
-                        <td><?php echo $row['year']; ?></td>
-                        <td>
-                            <?php
-                            // Fetch license details
-                            $vehicle_id = $row['id'];
-                            $license_sql = "SELECT * FROM licenses WHERE vehicle_id = ?";
-                            $stmt = $conn->prepare($license_sql);
-                            $stmt->bind_param("i", $vehicle_id);
-                            $stmt->execute();
-                            $license_result = $stmt->get_result();
-                            $license = $license_result->fetch_assoc();
-                            ?>
-                            Start Date: <?php echo $license['start_date']; ?><br>
-                            Expiry Date: <?php echo $license['expiry_date']; ?>
-                        </td>
-                        <td>
-                            <a href="#" class="view-btn" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#viewModal"><i class="fas fa-eye"></i></a>
-                            <a href="edit_vehicle.php?id=<?php echo $row['id']; ?>" class="edit-btn"><i class="fas fa-edit"></i></a>
-                            <a href="delete_vehicle.php?id=<?php echo $row['id']; ?>" class="delete-btn" onclick="return confirm('Are you sure you want to delete this vehicle?');"><i class="fas fa-trash-alt"></i></a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
+                <?php foreach ($vehicles as $vehicle): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($vehicle['license_plate']); ?></td>
+                    <td><?php echo htmlspecialchars($vehicle['make']); ?></td>
+                    <td><?php echo htmlspecialchars($vehicle['model']); ?></td>
+                    <td><?php echo htmlspecialchars($vehicle['owner_id_number']); ?></td>
+                    <td><?php echo htmlspecialchars($vehicle['owner_name']); ?></td>
+                    <td><button onclick="viewDetails(<?php echo htmlspecialchars(json_encode($vehicle)); ?>)">View</button></td>
+                </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 
-    <!-- View Modal -->
-    <div id="viewModal" class="modal">
+    <!-- Modal for vehicle details -->
+    <div id="vehicleModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closeModal()">&times;</span>
             <h2>Vehicle Details</h2>
-            <div id="modal-body"></div>
+            <p><strong>License Plate Number:</strong> <span id="modalLicensePlate"></span></p>
+            <p><strong>Make:</strong> <span id="modalMake"></span></p>
+            <p><strong>Model:</strong> <span id="modalModel"></span></p>
+            <p><strong>Year:</strong> <span id="modalYear"></span></p>
+            <p><strong>Color:</strong> <span id="modalColor"></span></p>
+            <p><strong>Owner ID Number:</strong> <span id="modalOwnerID"></span></p>
+            <p><strong>Owner Name:</strong> <span id="modalOwnerName"></span></p>
+            <p><strong>Date of Birth:</strong> <span id="modalOwnerDOB"></span></p>
+            <p><strong>Phone Number:</strong> <span id="modalOwnerPhone"></span></p>
+            <p><strong>Email:</strong> <span id="modalOwnerEmail"></span></p>
+            <p><strong>Gender:</strong> <span id="modalOwnerGender"></span></p>
+            <p><strong>Address:</strong> <span id="modalOwnerAddress"></span></p>
+            <p><strong>Profile Picture:</strong> <img id="modalProfilePicture" src="" alt="Profile Picture"></p>
+            <p><strong>Insurance Start Date:</strong> <span id="modalInsuranceStart"></span></p>
+            <p><strong>Insurance Expiry Date:</strong> <span id="modalInsuranceExpiry"></span></p>
         </div>
     </div>
+    <?php include 'footer.php'; ?>
 
-    <script src="js/script.js"></script>
     <script>
-    // JavaScript for modal functionality
-    var modal = document.getElementById("viewModal");
-    var close = document.getElementsByClassName("close")[0];
+        function searchTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('vehiclesTable');
+            const tr = table.getElementsByTagName('tr');
 
-    document.querySelectorAll('.view-btn').forEach(function(button) {
-        button.onclick = function() {
-            var vehicleId = this.getAttribute('data-id');
-            fetch('get_vehicle_details.php?id=' + vehicleId)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('modal-body').innerHTML = `
-                        <p><strong>License Plate:</strong> ${data.license_plate}</p>
-                        <p><strong>Make:</strong> ${data.make}</p>
-                        <p><strong>Model:</strong> ${data.model}</p>
-                        <p><strong>Year:</strong> ${data.year}</p>
-                        <p><strong>Color:</strong> ${data.color}</p>
-                        <h2> Owner Information</h2>
-                                                ${data.owner_profile_picture ? `<img src="uploads/owners/${data.owner_profile_picture}" alt="Owner Profile Picture" style="max-width: 100px; height: auto; border-radius: 50%;">` : 'No image available'}
+            for (let i = 1; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td');
+                let found = false;
 
-                        <p><strong>Owner ID:</strong> ${data.owner_id}</p>
-                        <p><strong>Owner Name:</strong> ${data.owner_name}</p>
-                        <p><strong>Owner DOB:</strong> ${data.owner_dob}</p>
-                        <p><strong>Owner Address:</strong> ${data.owner_address}</p>
-                        <p><strong>Owner Phone:</strong> ${data.owner_phone}</p>
-                        <p><strong>Owner Email:</strong> ${data.owner_email}</p>
-                        <p><strong>Owner Profile Picture:</strong></p>
-                              <h2> Driver Information</h2>
-                                                      ${data.driver_profile_picture ? `<img src="uploads/drivers/${data.driver_profile_picture}" alt="Driver Profile Picture" style="max-width: 100px; height: auto; border-radius: 50%;">` : 'No image available'}
+                for (let j = 0; j < td.length; j++) {
+                    if (td[j].textContent.toLowerCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
 
-                        <p><strong>Driver Name:</strong> ${data.driver_name}</p>
-                        <p><strong>Driver DOB:</strong> ${data.driver_dob}</p>
-                        <p><strong>Driver Address:</strong> ${data.driver_address}</p>
-                        <p><strong>Driver Phone:</strong> ${data.driver_phone}</p>
-                        <p><strong>Driver Email:</strong> ${data.driver_email}</p>
-                        <p><strong>Driver Profile Picture:</strong></p>
-                        <p><strong>License Start Date:</strong> ${data.start_date}</p>
-                        <p><strong>License Expiry Date:</strong> ${data.expiry_date}</p>
-                    `;
-                    modal.style.display = "block";
-                });
-        };
-    });
-
-    close.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+                tr[i].style.display = found ? '' : 'none';
+            }
         }
-    }
-</script>
 
+        function viewDetails(vehicle) {
+            document.getElementById('modalLicensePlate').textContent = vehicle.license_plate;
+            document.getElementById('modalMake').textContent = vehicle.make;
+            document.getElementById('modalModel').textContent = vehicle.model;
+            document.getElementById('modalYear').textContent = vehicle.year;
+            document.getElementById('modalColor').textContent = vehicle.color;
+            document.getElementById('modalOwnerID').textContent = vehicle.owner_id_number;
+            document.getElementById('modalOwnerName').textContent = vehicle.owner_name;
+            document.getElementById('modalOwnerDOB').textContent = vehicle.owner_dob;
+            document.getElementById('modalOwnerPhone').textContent = vehicle.owner_phone;
+            document.getElementById('modalOwnerEmail').textContent = vehicle.owner_email;
+            document.getElementById('modalOwnerGender').textContent = vehicle.owner_gender;
+            document.getElementById('modalOwnerAddress').textContent = vehicle.owner_address;
+            document.getElementById('modalProfilePicture').src = 'uploads/Owner_profile_pictures/' + vehicle.profile_picture;
+            document.getElementById('modalInsuranceStart').textContent = vehicle.insurance_start_date;
+            document.getElementById('modalInsuranceExpiry').textContent = vehicle.insurance_expiry_date;
 
+            document.getElementById('vehicleModal').style.display = 'block';
+        }
 
+        function closeModal() {
+            document.getElementById('vehicleModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside of the modal
+        window.onclick = function(event) {
+            const modal = document.getElementById('vehicleModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
 </body>
-
 </html>

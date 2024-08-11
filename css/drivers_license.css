@@ -108,6 +108,8 @@
 
 .title{
     text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 .title h2{
     color: #002952;
@@ -197,6 +199,7 @@ th {
 
     width: 100%;
     padding: 0 5%;
+    margin-block: 50px;
 }
 
 .actions button{
@@ -232,3 +235,4 @@ top: 0;
 hr{
     margin-top: 20px;
 }
+

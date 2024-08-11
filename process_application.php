@@ -10,22 +10,14 @@ function uploadFile($file, $target_dir) {
     }
 
     $target_file = $target_dir . basename($file["name"]);
-    $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     
-    // Check if file is an image
-    $check = getimagesize($file["tmp_name"]);
-    if ($check === false) {
-        $_SESSION['error_message'] = "File is not an image.";
+    // Check file size (optional, adjust size as needed)
+    if ($file["size"] > 5000000) { // 5MB limit, you can increase this limit if needed
+        $_SESSION['error_message'] = "Sorry, your file is too large.";
         return false;
     }
-    
-    // Allow certain file formats
-    if (!in_array($fileType, ["jpg", "jpeg", "png", "gif"])) {
-        $_SESSION['error_message'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        return false;
-    }
-    
-    // If everything is ok, try to upload file
+
+    // If everything is ok, try to upload the file
     if (move_uploaded_file($file["tmp_name"], $target_file)) {
         return basename($file["name"]);
     } else {

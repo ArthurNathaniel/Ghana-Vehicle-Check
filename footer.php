@@ -7,7 +7,7 @@
         <a href="">View Registered Vechiles</a> 
     </div>
     <hr>
-    <div class="logo"></div>
+    <div class="logo ff gvc_logo"></div>
   
 </div>
 <div class="copyright">
@@ -19,3 +19,8 @@
         | Ghana Vechile Check
     </p>
     </div>
+    <style>
+        .ff{
+            background-color: #fff;
+        }
+    </style>

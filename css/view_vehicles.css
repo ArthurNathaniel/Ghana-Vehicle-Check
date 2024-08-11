@@ -63,3 +63,20 @@ th {
 .actions a{
     color: #002952;
 }
+
+.view_all{
+    padding: 0 5%;
+    margin-top: 50px;
+}
+
+.forms input{
+    height: 44px;
+    width: 100%;
+    padding-left: 2%;
+    border-radius: 5px;
+    border: 1.5px solid #ddd;
+}
+
+.forms input:focus{
+    outline: none;
+}
