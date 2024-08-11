@@ -1,7 +1,11 @@
 <?php
 include 'db.php';
 session_start();
-
+// Check if the user is logged in, if not then redirect to login page
+if (!isset($_SESSION['dvla_personnel'])) {
+    header("Location: dvla_login.php");
+    exit();
+}
 // Fetch all driver license applications
 $sql = "SELECT license_id, full_name, license_start_date, license_end_date, profile_picture, license_category, purpose_of_license FROM driver_license_applications";
 $result = $conn->query($sql);
@@ -64,7 +68,9 @@ $result = $conn->query($sql);
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="viewModalLabel">Driver License Application Details</h5>
+                <div class="logo dvla_logo"></div>
+                <h2>Driver License Application Details</h2>
+                <hr>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -72,7 +78,13 @@ $result = $conn->query($sql);
             <div class="modal-body" id="viewModalBody">
                 <!-- Details will be loaded here by JavaScript -->
             </div>
+            <hr>
             <div class="modal-footer">
+                <p>All Copyright &copy; Reserved
+        <script>
+            document.write(new Date().getFullYear())
+        </script>
+        | Ghana Vechile Check</p>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>

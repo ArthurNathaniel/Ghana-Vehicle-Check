@@ -1,7 +1,11 @@
 <?php
 include 'db.php';
 session_start();
-
+// Check if the user is logged in, if not then redirect to login page
+if (!isset($_SESSION['dvla_personnel'])) {
+    header("Location: dvla_login.php");
+    exit();
+}
 // Generate License ID Number
 $licenseID = '';
 if ($_SERVER["REQUEST_METHOD"] == "GET") {

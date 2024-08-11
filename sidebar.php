@@ -34,8 +34,8 @@
                 </span> DVLA</h3>
             <a href="dvla_dashboard.php">Dashboard</a>
           <a href="drivers_license.php">Driver License Applications</a>
-            <a href="">Search Vechile</a>
-            
+          <a href="drivers_license_applications.php">All License Applications</a>
+          <a href="renew_license.php">Renew / Upgrade License</a>   
             <a href="dvla_logout.php">
                 <h3><i class="fas fa-sign-out-alt"></i> LOGOUT</h3>
             </a>

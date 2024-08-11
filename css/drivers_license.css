@@ -210,3 +210,25 @@ th {
     width: 100px;
 object-fit: contain;
 }
+.modal-content{
+    z-index: 49272;
+    position: relative;
+}
+.modal-body p{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+.close{
+    position: absolute;
+right: 0;
+top: 0;
+}
+
+.modal-footer{
+    text-align: center;
+    padding-top: 20px;
+}
+hr{
+    margin-top: 20px;
+}

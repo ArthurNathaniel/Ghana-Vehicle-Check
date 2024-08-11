@@ -1,7 +1,11 @@
 <?php
 include 'db.php';
 session_start();
-
+// Check if the user is logged in, if not then redirect to login page
+if (!isset($_SESSION['dvla_personnel'])) {
+    header("Location: dvla_login.php");
+    exit();
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['license_id'])) {
     $license_id = $_POST['license_id'];
 
@@ -26,11 +30,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_license'])) {
     $license_start_date = $_POST['license_start_date'];
     $license_end_date = $_POST['license_end_date'];
 
-    // Handling profile picture upload
-    $profile_picture = $_FILES['profile_picture']['name'];
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($profile_picture);
-    move_uploaded_file($_FILES['profile_picture']['tmp_name'], $target_file);
+    // Check if a new profile picture is uploaded
+    if (!empty($_FILES['profile_picture']['name'])) {
+        $profile_picture = $_FILES['profile_picture']['name'];
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($profile_picture);
+        move_uploaded_file($_FILES['profile_picture']['tmp_name'], $target_file);
+    } else {
+        // Keep the existing profile picture
+        $profile_picture = $_POST['existing_profile_picture'];
+    }
 
     $sql = "UPDATE driver_license_applications SET full_name = ?, license_category = ?, purpose_of_license = ?, license_start_date = ?, license_end_date = ?, profile_picture = ? WHERE license_id = ?";
     $stmt = $conn->prepare($sql);
@@ -70,10 +79,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_license'])) {
             </div>
         </form>
 
+        <?php if (isset($error) && !isset($license)) : ?>
+            <p class="error error_message"><?php echo $error; ?> <span class="close-btn" onclick="closeError()">x</span></p>
+        <?php endif; ?>
+
         <?php if (isset($license)) : ?>
             <form method="POST" action="" enctype="multipart/form-data">
+                <?php if (isset($success)) : ?>
+                    <p class="success success_message"><?php echo $success; ?> <span class="close-btns" onclick="closeSuccess()">x</span></p>
+                <?php endif; ?>
+
                 <div class="forms">
                     <input type="hidden" name="license_id" value="<?php echo $license['license_id']; ?>">
+                    <input type="hidden" name="existing_profile_picture" value="<?php echo $license['profile_picture']; ?>">
                 </div>
 
                 <div class="forms">
@@ -82,12 +100,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_license'])) {
                 </div>
                 <div class="forms">
                     <label for="license_category">License Category:</label>
-                    <input type="text" name="license_category" id="license_category" value="<?php echo $license['license_category']; ?>" required>
+                    <select name="license_category" id="license_category" required>
+                        <option value="A" <?php echo $license['license_category'] == 'A' ? 'selected' : ''; ?>>A</option>
+                        <option value="B" <?php echo $license['license_category'] == 'B' ? 'selected' : ''; ?>>B</option>
+                        <option value="C" <?php echo $license['license_category'] == 'C' ? 'selected' : ''; ?>>C</option>
+                        <option value="D" <?php echo $license['license_category'] == 'D' ? 'selected' : ''; ?>>D</option>
+                        <option value="E" <?php echo $license['license_category'] == 'E' ? 'selected' : ''; ?>>E</option>
+                        <option value="F" <?php echo $license['license_category'] == 'F' ? 'selected' : ''; ?>>F</option>
+                    </select>
                 </div>
 
                 <div class="forms">
-                    <label for="purpose">Purpose of the License:</label>
-                    <input type="text" name="purpose_of_license" id="purpose_of_license" value="<?php echo $license['purpose_of_license']; ?>" required>
+                    <label for="purpose_of_license">Purpose of the License:</label>
+                    <select name="purpose_of_license" id="purpose_of_license" required>
+                        <option value="personal" <?php echo $license['purpose_of_license'] == 'personal' ? 'selected' : ''; ?>>Personal</option>
+                        <option value="commercial" <?php echo $license['purpose_of_license'] == 'commercial' ? 'selected' : ''; ?>>Commercial</option>
+                        <option value="both" <?php echo $license['purpose_of_license'] == 'both' ? 'selected' : ''; ?>>Both</option>
+                    </select>
                 </div>
 
                 <div class="forms">
@@ -95,7 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_license'])) {
                     <input type="date" name="license_start_date" id="license_start_date" value="<?php echo $license['license_start_date']; ?>" required>
                 </div>
                 <div class="forms">
-
                     <label for="license_end_date">License End Date:</label>
                     <input type="date" name="license_end_date" id="license_end_date" value="<?php echo $license['license_end_date']; ?>" required>
                 </div>
@@ -112,15 +140,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_license'])) {
                 </div>
             </form>
         <?php endif; ?>
-
-        <?php if (isset($success)) : ?>
-            <p class="success"><?php echo $success; ?></p>
-        <?php endif; ?>
-
-        <?php if (isset($error)) : ?>
-            <p class="error"><?php echo $error; ?></p>
-        <?php endif; ?>
     </div>
+
+    <script>
+        function closeError() {
+            document.querySelector('.error_message').style.display = 'none';
+        }
+
+        function closeSuccess() {
+            document.querySelector('.success_message').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>

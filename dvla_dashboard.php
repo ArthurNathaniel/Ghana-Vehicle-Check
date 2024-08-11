@@ -1,67 +1,234 @@
 <?php
 include 'db.php';
 session_start();
-
 // Check if the user is logged in, if not then redirect to login page
 if (!isset($_SESSION['dvla_personnel'])) {
     header("Location: dvla_login.php");
     exit();
 }
+// Fetch total number of drivers
+$sql_total_drivers = "SELECT COUNT(*) as total_drivers FROM driver_license_applications";
+$result_total_drivers = $conn->query($sql_total_drivers);
+$total_drivers = $result_total_drivers->fetch_assoc()['total_drivers'];
 
-// Retrieve the email of the logged-in user
-$dvla_personnel_email = $_SESSION['dvla_personnel'];
+// Fetch total number of male and female drivers
+$sql_gender_count = "SELECT gender, COUNT(*) as count FROM driver_license_applications GROUP BY gender";
+$result_gender_count = $conn->query($sql_gender_count);
+$gender_data = [];
+while ($row = $result_gender_count->fetch_assoc()) {
+    $gender_data[$row['gender']] = $row['count'];
+}
 
-// Fetch user details from the database if needed
-$sql = "SELECT * FROM dvla_personnel WHERE email = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $dvla_personnel_email);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
+// Fetch number of each license category
+$sql_category_count = "SELECT license_category, COUNT(*) as count FROM driver_license_applications GROUP BY license_category";
+$result_category_count = $conn->query($sql_category_count);
+$category_data = [];
+while ($row = $result_category_count->fetch_assoc()) {
+    $category_data[$row['license_category']] = $row['count'];
+}
+
+// Fetch number of each purpose of license
+$sql_purpose_count = "SELECT purpose_of_license, COUNT(*) as count FROM driver_license_applications GROUP BY purpose_of_license";
+$result_purpose_count = $conn->query($sql_purpose_count);
+$purpose_data = [];
+while ($row = $result_purpose_count->fetch_assoc()) {
+    $purpose_data[$row['purpose_of_license']] = $row['count'];
+}
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DVLA Dashboard</title>
-    <?php include 'cdn.php' ?>
+    <title>Dashboard</title>
+    <?php include 'cdn.php'; ?>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<?php include 'header.php'; ?>
-
-<div class="dashboard_container">
-    <header>
-        <div class="header_content">
-            <h1>Welcome to DVLA Dashboard</h1>
-            <p>Logged in as: <?php echo htmlspecialchars($user['email']); ?></p>
+    <?php include 'header.php'; ?>
+    <div class="dashboard">
+    <h2>DVLA Stats</h2>
+    
+        <div class="charts">
+         <div class="stats">
+         <canvas id="totalDriversChart"></canvas>
+         </div>
+         <div class="stats">
+            <canvas id="genderChart"></canvas>
+            </div>
+            <div class="stats">
+            <canvas id="categoryChart"></canvas>
+            </div>
+            <div class="stats">
+            <canvas id="purposeChart"></canvas>
+            </div>
+       
         </div>
-        <nav>
-            <ul>
-                <li><a href="dvla_dashboard.php">Home</a></li>
-                <li><a href="vehicle_check.php">Vehicle Check</a></li>
-                <li><a href="reports.php">Reports</a></li>
-                <li><a href="settings.php">Settings</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section class="dashboard_section">
-            <h2>Dashboard Overview</h2>
-            <p>This is your dashboard. From here, you can access various features and functionalities related to vehicle checks and reports.</p>
-            <!-- Additional dashboard content can be added here -->
-        </section>
-    </main>
-</div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <?php include 'footer.php'; ?>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-<script src="./js/dashboard.js"></script>
-<script>
-    // Add any dashboard-specific JavaScript here
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Total Drivers Chart
+            var ctxTotalDrivers = document.getElementById('totalDriversChart').getContext('2d');
+            var totalDriversChart = new Chart(ctxTotalDrivers, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Total Drivers'],
+                    datasets: [{
+                        data: [<?php echo $total_drivers; ?>],
+                        backgroundColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 205, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(153, 102, 255)',
+                                'rgb(255, 159, 64)'
+                            ],
+                        // borderColor: ['rgba(75, 192, 192, 1)'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Total Drivers'
+                        }
+                    }
+                }
+            });
+
+            // Gender Distribution Chart
+            var ctxGender = document.getElementById('genderChart').getContext('2d');
+            var genderChart = new Chart(ctxGender, {
+                type: 'pie',
+                data: {
+                    labels: ['Male', 'Female'],
+                    datasets: [{
+                        data: [
+                            <?php echo isset($gender_data['male']) ? $gender_data['male'] : 0; ?>,
+                            <?php echo isset($gender_data['female']) ? $gender_data['female'] : 0; ?>
+                        ],
+                        backgroundColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 205, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(153, 102, 255)',
+                                'rgb(255, 159, 64)'
+                            ],
+                     
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Gender Distribution'
+                        }
+                    }
+                }
+            });
+
+            // License Category Chart
+            var ctxCategory = document.getElementById('categoryChart').getContext('2d');
+            var categoryChart = new Chart(ctxCategory, {
+                type: 'bar',
+                data: {
+                    labels: <?php echo json_encode(array_keys($category_data)); ?>,
+                    datasets: [{
+                        label: '# of Licenses',
+                        data: <?php echo json_encode(array_values($category_data)); ?>,
+                        backgroundColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 205, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(153, 102, 255)',
+                                'rgb(255, 159, 64)'
+                            ],
+                        // borderColor: 'rgba(54, 162, 235, 1)',
+                        // borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'License Categories'
+                        }
+                    }
+                }
+            });
+
+            // Purpose of License Chart
+            var ctxPurpose = document.getElementById('purposeChart').getContext('2d');
+            var purposeChart = new Chart(ctxPurpose, {
+                type: 'bar',
+                data: {
+                    labels: <?php echo json_encode(array_keys($purpose_data)); ?>,
+                    datasets: [{
+                        data: <?php echo json_encode(array_values($purpose_data)); ?>,
+                        backgroundColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 205, 86)',
+                                'rgb(75, 192, 192)',
+                                'rgb(153, 102, 255)',
+                                'rgb(255, 159, 64)'
+                            ],
+                        // borderColor: [
+                        //     'rgba(255, 99, 132, 1)',
+                        //     'rgba(54, 162, 235, 1)',
+                        //     'rgba(255, 206, 86, 1)',
+                        //     'rgba(75, 192, 192, 1)'
+                        // ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Purpose of Licenses'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
