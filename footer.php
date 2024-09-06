@@ -1,10 +1,10 @@
 <div class="footer_all">
     <div class="ft_links">
-        <a href="">Dashboard</a> |
-        <a href="">Register Police</a> |
-        <a href="">View Registered Police</a> |
-        <a href="">Register Vechile</a> |
-        <a href="">View Registered Vechiles</a> 
+        <a href="dashboard.php">Dashboard</a> |
+        <a href="register_police.php">Register Police</a> |
+        <a href="view_registered_police.php">View Registered Police</a> |
+        <a href="view_dvla_personnel.php">Register Vechile</a> |
+        <a href="view_registered_police.php">View Registered Vechiles</a> 
     </div>
     <hr>
     <div class="logo ff gvc_logo"></div>

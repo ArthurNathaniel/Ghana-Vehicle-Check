@@ -42,21 +42,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <img src="./images/signup_01.jpg" alt="">
+                    <img src="./images/flag.png" alt="">
                 </div>
                 <div class="swiper-slide">
-                    <img src="./images/signup_02.jpg" alt="">
+                <img src="./images/flag.png" alt="">
                 </div>
             </div>
         </div>
     </div>
     <div class="auth_forms">
-        <div class="logo">
+        <div class="gvc_logo">
            
         </div>
         <div class="forms_title">
-            <h2>GHANA POLICE SERVICE - LOG IN</h2>
-            <p>GHANA VEHICLE CHECK - MOTOR TRAFFIC AND TRANSPORT DEPARTMENT (MTTD)</p>
+            <h2>GHANA VEHICLE CHECK - LOG IN</h2>
         </div>
 
         <?php if ($error_message != ""): ?>
@@ -81,6 +80,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="forms">
                 <button type="submit">Login</button>
+            </div>
+            <div class="forms">
+                <p>Return home <a href="index.php">Click here</a></p>
             </div>
         </form>
     </div>

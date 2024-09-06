@@ -1,8 +1,8 @@
 <?php
 include 'db.php';
 session_start();
-if (!isset($_SESSION['police'])) {
-    header("Location: police_login.php");
+if (!isset($_SESSION['dvla_personnel'])) {
+    header("Location: dvla_login.php");
     exit();
 }
 
@@ -32,19 +32,17 @@ $result = $conn->query($sql);
 <body>
 <?php include 'header.php'; ?>
 <div class="view_all">
-    <div class="title">
-        <h2>Verify Driver License Details</h2>
-    </div>
+
     <form id="searchForm">
         <div class="forms">
-            <input type="text" id="searchInput" name="search" placeholder="Search by License ID, Name, or Purpose" value="<?php echo htmlspecialchars($search); ?>">
+        <input type="text" id="searchInput" name="search" placeholder="Search by License ID, Name, or Purpose">
         </div>
-        <div class="forms forms_submit">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
+     <div class="forms forms_submit">
+     <button type="submit" class="btn btn-primary">Search</button>
+     </div>
     </form>
     <div class="title">
-        <h2>Driver License Applications</h2>
+    <h2>Driver License Applications</h2>
     </div>
     <table>
         <thead>
@@ -60,26 +58,7 @@ $result = $conn->query($sql);
             </tr>
         </thead>
         <tbody id="applicationsTableBody">
-            <?php if ($result->num_rows > 0): ?>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><img src='uploads/profile_pictures/<?php echo htmlspecialchars($row['profile_picture']); ?>' alt='Profile Picture' width='100'></td>
-                        <td><?php echo htmlspecialchars($row['license_id']); ?></td>
-                        <td><?php echo htmlspecialchars($row['full_name']); ?></td>
-                        <td><?php echo htmlspecialchars($row['license_start_date']); ?></td>
-                        <td class="<?php echo strtotime($row['license_end_date']) < time() ? 'expired' : 'valid'; ?>">
-                            <?php echo htmlspecialchars($row['license_end_date']); ?>
-                        </td>
-                        <td><?php echo htmlspecialchars($row['license_category']); ?></td>
-                        <td><?php echo htmlspecialchars($row['purpose_of_license']); ?></td>
-                        <td><button class="view" onclick="viewApplication('<?php echo $row['license_id']; ?>')">View</button></td>
-                    </tr>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="8">No driver license applications available.</td>
-                </tr>
-            <?php endif; ?>
+            <!-- Table rows will be dynamically inserted here -->
         </tbody>
     </table>
 </div>
@@ -102,10 +81,10 @@ $result = $conn->query($sql);
             <hr>
             <div class="modal-footer">
                 <p>All Copyright &copy; Reserved
-                <script>
-                    document.write(new Date().getFullYear())
-                </script>
-                | Ghana Vehicle Check</p>
+        <script>
+            document.write(new Date().getFullYear())
+        </script>
+        | Ghana Vehicle Check</p>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -117,12 +96,27 @@ $result = $conn->query($sql);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 $(document).ready(function() {
+    // Load initial data
+    loadApplications('');
+
     // Handle search form submission
     $('#searchForm').on('submit', function(event) {
         event.preventDefault();
         var query = $('#searchInput').val();
-        window.location.href = '?search=' + encodeURIComponent(query);
+        loadApplications(query);
     });
+    
+    // Function to load applications with search query
+    function loadApplications(query) {
+        $.ajax({
+            url: 'search_applications.php',
+            method: 'GET',
+            data: { search: query },
+            success: function(response) {
+                $('#applicationsTableBody').html(response);
+            }
+        });
+    }
 
     // Function to view application details
     window.viewApplication = function(license_id) {
@@ -140,6 +134,7 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+
 
 <?php
 $conn->close();

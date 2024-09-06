@@ -134,3 +134,13 @@ input[type="checkbox"]:checked {
    
   
   }
+
+  @media only screen and (max-width: 1110px) {
+.auth_all{
+    display: flex;
+    flex-direction: column;
+}  
+.auth_swiper{
+    display: none;
+}
+}

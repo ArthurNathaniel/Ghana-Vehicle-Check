@@ -80,3 +80,7 @@ th {
 .forms input:focus{
     outline: none;
 }
+.view{
+    background-color: transparent;
+    border: none;
+}

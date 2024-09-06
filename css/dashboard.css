@@ -28,3 +28,48 @@ margin-top: 50px;
     display: flex;
   
 }
+
+.title{
+    text-align: center;
+    margin-top: 40px;
+}
+.containers{
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    gap: 30px;
+    padding: 0 5%;
+}
+.containers .chartx {
+    height: 300px;
+    width: 100%;
+    border: 2px dashed #002952;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+canvas {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+
+@media only screen and (max-width: 1110px) {
+.containers{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+.chartx{
+    width: 100%;
+}
+.chartx canvas{
+    width: 100%;
+    height: 300px;
+}
+
+}

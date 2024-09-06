@@ -87,6 +87,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="forms forgot_password">
             <p><a href="forgot_password_dvla.php">Forgot your password?</a></p>
+            <br>
+            <p>Return home <a href="index.php">Click here</a></p>
             </div>
         </form>
     </div>

@@ -21,7 +21,6 @@
                         <div class="hero_text">
                             <h1>Welcome to Ghana Vehicle Check</h1>
                             <p>Ensuring road safety by verifying vehicle details during traffic stops.</p>
-                            <a href="#features" class="btn">Learn More</a>
                         </div>
                         <img src="./images/police_01.jpg" alt="">
                     </div>
@@ -30,7 +29,6 @@
                         <div class="hero_text">
                             <h1>Welcome to Ghana Vehicle Check</h1>
                             <p>Ensuring road safety by verifying vehicle details during traffic stops.</p>
-                            <a href="#features" class="btn">Learn More</a>
                         </div>
                         <img src="./images/dvla_04.jpg" alt="">
                     </div>

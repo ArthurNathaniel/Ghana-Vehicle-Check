@@ -15,8 +15,8 @@
     </a>
     <div class="nav_links">
         <a href="index.php">Home</a>
-        <a href="">About</a>
-        <a href="">Features</a>
+        <a href="about.php">About</a>
+        <a href="features.php">Features</a>
  
     </div>
     <div class="accounts ">
@@ -36,10 +36,10 @@
     </button>
     <div class="mobile">
     <a href="index.php">Home</a>
-        <a href="">About</a>
-        <a href="">Features</a>
-        <a href=""><i class="fas fa-user"></i> Login Police</a>
-        <a href=""><i class="fas fa-user"></i> Login DVLA</a>
+        <a href="about.php">About</a>
+        <a href="features.php">Features</a>
+        <a href="police_login.php"><i class="fas fa-user"></i> Login Police</a>
+        <a href="dvla_login.php"><i class="fas fa-user"></i> Login DVLA</a>
     </div>
 </div>
 

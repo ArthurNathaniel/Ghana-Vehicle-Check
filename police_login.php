@@ -57,7 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="logo"></div>
         <div class="forms_title">
             <h2>POLICE - LOG IN</h2>
-            <p>GHANA VEHICLE CHECK - MOTOR TRAFFIC AND TRANSPORT DEPARTMENT (MTTD)</p>
         </div>
         <?php if ($error_message != ""): ?>
             <div class="error_message error" id="error-message">
@@ -84,6 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="forms forgot_password">
             <p><a href="forgot_password.php">Forgot your password?</a></p>
+            <br>
+            <p>Return home <a href="index.php">Click here</a></p>
             </div>
         </form>
     </div>

@@ -236,3 +236,10 @@ hr{
     margin-top: 20px;
 }
 
+.expired {
+    color: red;
+}
+
+.valid {
+    color: green;
+}
